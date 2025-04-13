@@ -10,7 +10,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 
 /**
- * @author liuf
+ * @author apollo.lyu
  * @date 2022年08月09日 10:44
  */
 public class MailCleanHelper {

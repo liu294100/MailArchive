@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * @author liuf
+ * @author apollo.lyu
  * @date 2022年06月10日 9:39
  */
 public class MailSendHelper {

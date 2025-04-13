@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * @author liuf
+ * @author apollo.lyu
  * @date 2022年06月08日 15:34
  */
 public class MailHelper {

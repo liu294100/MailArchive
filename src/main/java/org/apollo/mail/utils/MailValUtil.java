@@ -1,7 +1,7 @@
 package org.apollo.mail.utils;
 
 /**
- * @author liuf
+ * @author apollo.lyu
  * @date 2023年08月09日 10:44
  */
 public class MailValUtil {

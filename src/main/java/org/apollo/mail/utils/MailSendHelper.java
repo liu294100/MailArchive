@@ -11,7 +11,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * @author liuf
+ * @author apollo.lyu
  * @date 2022年06月10日 9:39
  */
 public class MailSendHelper {
