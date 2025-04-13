@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Configurations</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type=text], input[type=number], input[type=password], select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type=checkbox] { margin-left: 10px; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .delete-button { background-color: #f44336; margin-left: 5px; }
+        .delete-button:hover { background-color: #da190b; }
+        .message { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
+        .success { background-color: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+        .error { background-color: #f2dede; color: #a94442; border: 1px solid #ebccd1; }
+        .validation-error { color: #a94442; font-size: 0.9em; margin-top: 3px; }
+        .config-section { border: 1px solid #eee; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        .config-section h3 { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<h1>Email Configurations</h1>
+
+<!-- Success/Error Messages -->
+<div th:if="${success}" class="message success" th:text="${success}"></div>
+<div th:if="${error}" class="message error" th:text="${error}"></div>
+
+<!-- Add New Configuration Form -->
+<div class="config-section">
+    <h3>Add New Configuration</h3>
+    <form th:action="@{/config/add}" th:object="${newConfig}" method="post">
+        <div class="form-group">
+            <label for="add-configName">Config Name:</label>
+            <input type="text" id="add-configName" th:field="*{configName}" required/>
+            <div th:if="${#fields.hasErrors('configName')}" th:errors="*{configName}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-host">Host:</label>
+            <input type="text" id="add-host" th:field="*{host}" placeholder="e.g., imap.example.com" required/>
+            <div th:if="${#fields.hasErrors('host')}" th:errors="*{host}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-port">Port:</label>
+            <input type="number" id="add-port" th:field="*{port}" required/>
+             <div th:if="${#fields.hasErrors('port')}" th:errors="*{port}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-username">Username:</label>
+            <input type="text" id="add-username" th:field="*{username}" required/>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-password">Password:</label>
+            <input type="password" id="add-password" th:field="*{password}" required/>
+             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-protocol">Protocol:</label>
+            <select id="add-protocol" th:field="*{protocol}" required>
+                <option value="imaps">IMAPS (Secure)</option>
+                <option value="imap">IMAP</option>
+                <option value="pop3s">POP3S (Secure)</option>
+                <option value="pop3">POP3</option>
+            </select>
+             <div th:if="${#fields.hasErrors('protocol')}" th:errors="*{protocol}" class="validation-error"></div>
+        </div>
+         <div class="form-group">
+            <label for="add-mailType">Mail Type:</label>
+            <input type="text" id="add-mailType" th:field="*{mailType}" placeholder="Unique identifier (e.g., 'INBOX', 'SUPPORT')" required/>
+             <div th:if="${#fields.hasErrors('mailType')}" th:errors="*{mailType}" class="validation-error"></div>
+        </div>
+        <div class="form-group">
+            <label for="add-ssl">Use SSL/TLS:</label>
+            <input type="checkbox" id="add-ssl" th:field="*{ssl}"/>
+        </div>
+        <div class="form-group">
+            <label for="add-active">Active:</label>
+            <input type="checkbox" id="add-active" th:field="*{active}"/>
+        </div>
+        <button type="submit">Add Configuration</button>
+    </form>
+</div>
+
+<!-- Existing Configurations Table -->
+<div class="config-section">
+    <h3>Existing Configurations</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Host</th>
+                <th>Port</th>
+                <th>Username</th>
+                <th>Protocol</th>
+                <th>SSL</th>
+                <th>Mail Type</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="config : ${configs}">
+                 <!-- Edit Form within the row (can be improved with modals/separate edit page) -->
+                <form th:action="@{/config/update/{id}(id=${config.id})}" method="post" th:id="'editForm-' + ${config.id}">
+                    <td th:text="${config.id}"></td>
+                    <td><input type="text" name="configName" th:value="${config.configName}" required/></td>
+                    <td><input type="text" name="host" th:value="${config.host}" required/></td>
+                    <td><input type="number" name="port" th:value="${config.port}" required/></td>
+                    <td><input type="text" name="username" th:value="${config.username}" required/></td>
+                    <td>
+                        <select name="protocol" required>
+                            <option value="imaps" th:selected="${config.protocol == 'imaps'}">IMAPS</option>
+                            <option value="imap" th:selected="${config.protocol == 'imap'}">IMAP</option>
+                            <option value="pop3s" th:selected="${config.protocol == 'pop3s'}">POP3S</option>
+                            <option value="pop3" th:selected="${config.protocol == 'pop3'}">POP3</option>
+                        </select>
+                    </td>
+                     <td><input type="checkbox" name="ssl" th:checked="${config.ssl}"/></td>
+                     <td><input type="text" name="mailType" th:value="${config.mailType}" required/></td>
+                    <td><input type="checkbox" name="active" th:checked="${config.active}"/></td>
+                    <td>
+                        <button type="submit" th:form="'editForm-' + ${config.id}">Update</button>
+                         <!-- Delete Form -->
+                        <form th:action="@{/config/delete/{id}(id=${config.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this configuration?');">Delete</button>
+                        </form>
+                    </td>
+                </form>
+            </tr>
+            <tr th:if="${#lists.isEmpty(configs)}">
+                <td colspan="10">No configurations found.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html> 

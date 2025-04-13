@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>邮件归档</h2>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form id="searchForm" class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">发件人</label>
+                            <input type="text" class="form-control" id="fromEmail">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">开始日期</label>
+                            <input type="date" class="form-control" id="startTime">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">结束日期</label>
+                            <input type="date" class="form-control" id="endTime">
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-search"></i> 搜索
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="email-list">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>主题</th>
+                                        <th>发件人</th>
+                                        <th>收件人</th>
+                                        <th>接收时间</th>
+                                        <th>附件</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="email-list">
+                                    <!-- 动态加载数据 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 分页 -->
+                    <nav>
+                        <ul class="pagination justify-content-center" id="pagination">
+                            <!-- 动态加载分页 -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 邮件详情模态框 -->
+    <div class="modal fade" id="emailDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">邮件详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="fw-bold">主题：</label>
+                        <span id="detail-subject"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">发件人：</label>
+                        <span id="detail-from"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">收件人：</label>
+                        <span id="detail-to"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">接收时间：</label>
+                        <span id="detail-time"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">附件：</label>
+                        <div id="detail-attachments"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="fw-bold">正文：</label>
+                        <div id="detail-body" class="border p-3 mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
